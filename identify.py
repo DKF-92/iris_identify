@@ -2,22 +2,22 @@
 
 # Python version
 import sys
-print('Python: {}'.format(sys.version))
+#print('Python: {}'.format(sys.version))
 # scipy
 import scipy
-print('scipy: {}'.format(scipy.__version__))
+#print('scipy: {}'.format(scipy.__version__))
 # numpy
 import numpy
-print('numpy: {}'.format(numpy.__version__))
+#print('numpy: {}'.format(numpy.__version__))
 # matplotlib
 import matplotlib
-print('matplotlib: {}'.format(matplotlib.__version__))
+#print('matplotlib: {}'.format(matplotlib.__version__))
 # pandas
 import pandas
-print('pandas: {}'.format(pandas.__version__))
+#print('pandas: {}'.format(pandas.__version__))
 # scikit-learn
 import sklearn
-print('sklearn: {}'.format(sklearn.__version__))
+#print('sklearn: {}'.format(sklearn.__version__))
 
 # Load libraries
 from pandas import read_csv
