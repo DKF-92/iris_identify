@@ -47,3 +47,60 @@ print(dataset.head(20))
 
 # Used for dataset description
 print(dataset.describe())
+
+# Used for class distribution
+print(dataset.groupby('class').size())
+
+# Below creates some visualizations to help us fully understand the data
+# box plot
+dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+pyplot.show()
+# histograms
+dataset.hist()
+pyplot.show()
+# scatter plot matrix
+scatter_matrix(dataset)
+pyplot.show()
+
+# Creates array
+array = dataset.values
+X = array[:,0:4]
+y = array[:,4]
+
+# Creates test and train sets
+X_train, X_val, Y_train, Y_val =train_test_split(X, y, test_size=0.20, random_state=1) 
+
+# Check algorithms
+models = []
+models.append(('Logistic Regression', LogisticRegression(solver='liblinear', multi_class='ovr')))
+models.append(('Linear Discriminant Analysis', LinearDiscriminantAnalysis()))
+models.append(('KNearest Neighbors', KNeighborsClassifier()))
+models.append(('Classification/Regression Trees', DecisionTreeClassifier()))
+models.append(('Gaussian Naive Bayes', GaussianNB()))
+models.append(('Support Vector Machines', SVC(gamma='auto'))) 
+results = []
+names =[]
+
+for name, model in models:
+    kfold = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
+    cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring='accuracy')
+    results.append(cv_results)
+    names.append(name)
+    print('%s: %f (%f)' % (name, cv_results.mean(), cv_results.std()))
+
+# Plot Algorithms
+pyplot.boxplot(results, labels=names)
+pyplot.title('Algorithm Comparison')
+pyplot.show()
+
+# As the Support Vector Machines algorithm produced the best result we will use this model
+model = SVC(gamma='auto')
+model.fit(X_train, Y_train)
+predictions = model.predict(X_val)
+
+# Evaluate predictions
+print(accuracy_score(Y_val, predictions))
+print(confusion_matrix(Y_val, predictions))
+print(classification_report(Y_val, predictions))
+
+print(Y_val)
